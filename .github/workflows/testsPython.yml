@@ -73,7 +73,13 @@ jobs:
       - name: Notify on test results
         run: |
           if [ "${{ needs.python-unit-tests.result }}" == "success" ]; then
-            echo "success notifications go here"
+            echo "Tests passed successfully"
           else
-            echo "failure notifications go here"
+            echo "TESTS FAILED"
+            echo "Repository: ${{ github.repository }}"
+            echo "Triggered by: ${{ github.actor }}"
+            echo "Commit: ${{ github.sha }}"
+            echo "Check logs: https://github.com/${{ github.repository }}/actions"
+            exit 1
           fi
+          
