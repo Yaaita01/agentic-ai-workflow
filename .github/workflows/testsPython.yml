@@ -66,17 +66,21 @@ jobs:
   # This job will run after the Python unit tests and
   # is scaffolded to facilitate sending notifications based
   # on the test results.
-  notifications:
-  needs: python-unit-tests
-  runs-on: ubuntu-latest
-  if: ${{ failure() }}
+  python-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      # your existing test steps...
 
-  steps:
-    - name: Notify on failure
-      run: |
-        echo "TESTS FAILED 🚨"
-        echo "Repository: ${{ github.repository }}"
-        echo "Triggered by: ${{ github.actor }}"
-        echo "Commit: ${{ github.sha }}"
-        echo "Check logs: https://github.com/${{ github.repository }}/actions"
-          
+  notifications:
+    needs: python-unit-tests
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+
+    steps:
+      - name: Notify on failure
+        run: |
+          echo "TESTS FAILED 🚨"
+          echo "Repository: ${{ github.repository }}"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Check logs: https://github.com/${{ github.repository }}/actions"
